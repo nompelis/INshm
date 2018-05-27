@@ -13,6 +13,10 @@ lib:
 prog:
 	$(CC) $(COPTS) main.c inshm.o 
 
+demo: lib
+	$(CC) $(COPTS) demo1.c inshm.o -o maker
+	$(CC) $(COPTS) demo2.c inshm.o -o consumer
+
 clean:
-	rm -f *.o *.out 
+	rm -f *.o *.out maker consumer 
 
