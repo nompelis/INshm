@@ -129,7 +129,7 @@ int inSHM_DetachSegment(
 // ds = &( inshm->ds );
 
    if( iverb != 0 ) {
-      printf(" [inSHM] Attempting detaching from segment (shmid=%d, shm=%p) \n",
+      printf(" [inSHM] Attempting to detach from segment (shmid=%d, shm=%p) \n",
       inshm->shmid, inshm->shm );
    }
    if( shmdt( inshm->shm ) != 0 ) {
@@ -142,6 +142,8 @@ int inSHM_DetachSegment(
       if( iverb != 0 ) {
          printf(" [inSHM] Detached from segment \n");
       }
+      inshm->shmid = -1;
+      inshm->size = 0;
       inshm->shm = NULL;
    }
 
