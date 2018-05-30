@@ -10,6 +10,7 @@ all: lib prog
 lib:
 	$(CC) $(COPTS) -c inshm.c
 	$(CC) $(COPTS) -c inshm_fortran.c
+	$(FC) $(FOPTS) -c inshm_module.f
 
 prog:
 	$(CC) $(COPTS) main.c inshm.o inshm_fortran.o
@@ -19,9 +20,9 @@ demo: lib
 	$(CC) $(COPTS) demo2.c inshm.o -o consumer
 
 demo2: lib
-	$(FC) $(FOPTS) demo1.f inshm.o inshm__fortran.o -o maker
-	$(FC) $(FOPTS) demo2.f inshm.o inshm__fortran.o -o consumer
+	$(FC) $(FOPTS) fdemo1.f inshm.o inshm_fortran.o -o maker
+	$(FC) $(FOPTS) fdemo2.f inshm.o inshm_fortran.o -o consumer
 
 clean:
-	rm -f *.o *.out maker consumer 
+	rm -f *.o *.out maker consumer *.mod
 
