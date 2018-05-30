@@ -129,6 +129,7 @@ int inSHM_Fortran_DropSegment(
 int inSHM_Fortran_CreateSegment(
       long *size,
       int *handle,
+      int *shmid,
       int iverb )
 {
    size_t isize = (size_t ) (*size);
@@ -166,6 +167,7 @@ int inSHM_Fortran_CreateSegment(
    }
 
    *handle = ihandle;
+   *shmid = s->shmid;
 
    return(0);
 }
@@ -173,9 +175,10 @@ int inSHM_Fortran_CreateSegment(
 void inshm_fortran_createsegment_(
       long *size,
       int *handle,
+      int *shmid,
       int *iverb, int *ier )
 {
-   *ier = inSHM_Fortran_CreateSegment( size, handle, *iverb );
+   *ier = inSHM_Fortran_CreateSegment( size, handle, shmid, *iverb );
 }
 
 
@@ -187,6 +190,8 @@ int inSHM_Fortran_DetachSegment(
       int handle,
       int iverb )
 {
+   struct inSHM_segment_s *s;
+
 
    // sanity check
    if( global_inshm_handles == NULL ) {
@@ -204,9 +209,16 @@ int inSHM_Fortran_DetachSegment(
    if( global_inshm_handles[ handle ].shmid < 0 ) {
       if( iverb != 0 )
          printf("Error: Handle seems to have been cleaned \n");
-      // we will re-try a cleaning to possibly drop the array...
+      // we will drop the segment even though we return an error code
       (void) inSHM_Fortran_DropSegment( handle, iverb );
       return(3);
+   }
+
+   s = &( global_inshm_handles[ handle ] );
+   if( inSHM_DetachSegment( s, iverb ) != 0 ) {
+      if( iverb != 0 )
+         printf("Error: Could not cleanly detach from segment \n");
+      return(4);
    }
 
    (void) inSHM_Fortran_DropSegment( handle, iverb );
@@ -229,39 +241,27 @@ void inshm_fortran_detachsegment_(
 
 int inSHM_Fortran_AttachSegment(
       int shmid,
-      int handle,
+      int *handle,
       int iverb )
 {
    struct inSHM_segment_s *s;
    int ier;
 
-   // sanity check
-   if( global_inshm_handles == NULL ) {
+   ier = inSHM_Fortran_GetSegment( handle, iverb );
+   if( ier != 0 ) {
       if( iverb != 0 )
-         printf("Error: there should be no handles floating around! \n");
+         printf("Could not get an unused or a new handle!\n");
       return(1);
    }
 
-   if( handle >= global_inshm_handles_num ) {
-      if( iverb != 0 )
-         printf("Error: Invalid handle to attach to (%d) \n", handle );
-      return(2);
-   }
-
-   if( global_inshm_handles[ handle ].shmid >= 0 ) {
-      if( iverb != 0 )
-         printf("Error: Handle seems to have to be in use \n");
-      return(3);
-   }
-
-   s = &( global_inshm_handles[ handle ] );
+   s = &( global_inshm_handles[ *handle ]);
 
    ier = inSHM_AttachSegment( s, shmid, iverb );
    if( ier != 0 ) {
       if( iverb != 0 )
          printf("Error: Could not attach to shared memory segment %d \n",
          shmid );
-      return(4);
+      return(2);
    }
 
    return(0);
@@ -273,6 +273,40 @@ void inshm_fortran_attachsegment_(
       int *iverb,
       int *ier )
 {
-   *ier = inSHM_Fortran_AttachSegment( *shmid, *handle, *iverb );
+   *ier = inSHM_Fortran_AttachSegment( *shmid, handle, *iverb );
+}
+
+
+//
+// Get the identifier of a shared memory segment
+//
+
+int inSHM_Fortran_SegmentID(
+      int handle,
+      int iverb )
+{
+   struct inSHM_segment_s *s;
+
+   // sanity check
+   if( global_inshm_handles == NULL ) {
+      if( iverb != 0 )
+         printf("Error: there should be no handles floating around! \n");
+      return(-1);
+   }
+
+   if( handle >= global_inshm_handles_num ) {
+      if( iverb != 0 )
+         printf("Error: Invalid handle to attach to (%d) \n", handle );
+      return(-1);
+   }
+
+   s = &( global_inshm_handles[ handle ] );
+
+   return( s->shmid );
+}
+
+int inshm_fortran_segmentid_( int *handle, int *iverb )
+{
+   return( inSHM_Fortran_SegmentID( *handle, *iverb ) );
 }
 
