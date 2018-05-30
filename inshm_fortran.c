@@ -115,6 +115,7 @@ int inSHM_Fortran_DropSegment(
 
    if( idrop == 0 ) {
       free( global_inshm_handles );
+      global_inshm_handles = NULL;
       global_inshm_handles_num = 0;
    }
 
