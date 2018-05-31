@@ -20,8 +20,8 @@ demo: lib
 	$(CC) $(COPTS) demo2.c inshm.o -o consumer
 
 demo2: lib
-	$(FC) $(FOPTS) fdemo1.f inshm.o inshm_fortran.o -o maker
-	$(FC) $(FOPTS) fdemo2.f inshm.o inshm_fortran.o -o consumer
+	$(FC) $(FOPTS) fdemo1.f inshm.o inshm_fortran.o inshm_module.o -o maker
+	$(FC) $(FOPTS) fdemo2.f inshm.o inshm_fortran.o inshm_module.o -o consumer
 
 clean:
 	rm -f *.o *.out maker consumer *.mod

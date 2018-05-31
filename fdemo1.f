@@ -5,6 +5,8 @@
       Implicit None
       Integer(KIND=4) ishm_handle, ishm_id, ier
       Integer(KIND=8) lshm_size
+      Integer(KIND=4), dimension(:), Pointer :: p
+      Integer i
 
 
 c--- Establish that we want a segment of 100 integers (4-bytes)
@@ -24,6 +26,15 @@ c--- Show the segments with IPCS
       PRINT*,'Maker is querying the segment from the shell with "ipcs"'
       PRINT*,'(The segment should be there, since we are attached to it.)'
       call SYSTEM( 'ipcs -m' )
+
+c--- Attach the segment to a pointer so that we can access data
+      call inshm_SegmentPtr_INT4( ishm_handle, p, 1, ier )
+      do i = 1,100
+         p(i) = -(1000 + i)
+      enddo
+      do i = 1,5   ! only the first few
+         PRINT*,'p(i)=', p(i)
+      enddo
 
 c--- Wait some time to allow other processes to attach to your segment
       PRINT*,'This is the part where the maker does work for a while...'

@@ -4,6 +4,8 @@
 
       Implicit None
       Integer(KIND=4) ishm_handle, ishm_id, ier
+      Integer(KIND=4),dimension(:),Pointer :: p
+      Integer i
 
 
 c--- Get the segment identifier from the user
@@ -21,6 +23,14 @@ c--- Show the segments with IPCS
 c--- Attach to the segment
       call inSHM_AttachSegment_f( ishm_id, ishm_handle, 1, ier )
       PRINT*,'ier=',ier,'(should be zero)'
+
+c--- Attach the segment to a pointer so that we can access data
+      call inshm_SegmentPtr_INT4( ishm_handle, p, 1, ier )
+      !--- data should have been set by the maker
+      do i = 1,5   ! only the first few
+         PRINT*,'p(i)=', p(i)
+      enddo
+
 
 c--- Wait some time to allow for the make of the segment to terminate
       PRINT*,'This is the part where the consumer does work for a while...'
