@@ -2,7 +2,7 @@ CC = gcc
 COPTS = -fPIC -Wall -O0
 
 FC = gfortran
-FOPTS = -fPIC -Wall -O0 -ffixed-line-length-132
+FOPTS = -fPIC -Wall -O0 -ffixed-line-length-132 -fbounds-check
 
 
 all: lib prog

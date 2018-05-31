@@ -8,6 +8,8 @@
       Integer(KIND=4), dimension(:), Pointer :: p
 C     Real   (KIND=4), dimension(:), Pointer :: pr
 C     Real   (KIND=8), dimension(:), Pointer :: pre
+      Integer(KIND=4),dimension(:,:),Pointer :: pp
+      Integer(KIND=4) iarray_size(7)
       Integer i
 
 
@@ -29,8 +31,12 @@ c--- Show the segments with IPCS
       PRINT*,'(The segment should be there, since we are attached to it.)'
       call SYSTEM( 'ipcs -m' )
 
+        PRINT*,'ABOUT TO ASSIGN'
 c--- Attach the segment to a pointer so that we can access data
-      call inshm_AssignPointer_f( ishm_handle, p, 1, ier )
+      iarray_size(:) = 0
+      iarray_size(1) = 100
+      PRINT*,'iarray_size()=',iarray_size(:)
+      call inshm_AssignPointer_f( ishm_handle, p, iarray_size, 1, ier )
       PRINT*,'ier=',ier,'(should be zero)'
       do i = 1,100
          p(i) = -(1000 + i)
@@ -54,6 +60,16 @@ c     PRINT*,'ier=',ier,'(should be zero)'
 c     do i = 1,5   ! only the first few
 c        PRINT*,'pre(i)=', pre(i)
 c     enddo
+
+c--- A test involving multi-dimensional arrays
+      iarray_size(1) = 10    ! multi-dimensional array test
+      iarray_size(2) = 10
+      call inshm_AssignPointer_f( ishm_handle, pp, iarray_size, 1, ier )
+      PRINT*,'ier=',ier,'(should be zero)'
+      PRINT*,'TABULAR OUTPUT (should show vertical unrolling by 10)'
+      do i = 1,10  ! only the first few
+         PRINT*,'pp(i,1:5)=', pp(i,1:5)
+      enddo
 
 c--- Wait some time to allow other processes to attach to your segment
       PRINT*,'This is the part where the maker does work for a while...'

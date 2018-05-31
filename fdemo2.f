@@ -6,6 +6,7 @@
       Integer(KIND=4) ishm_handle, ishm_id, ier
       Integer(KIND=4),dimension(:),Pointer :: p
 C     Real   (KIND=4),dimension(:),Pointer :: pr
+      Integer(KIND=4) iarray_size(7)
       Integer i
 
 
@@ -26,14 +27,15 @@ c--- Attach to the segment
       PRINT*,'ier=',ier,'(should be zero)'
 
 c--- Attach the segment to a pointer so that we can access data
-      call inshm_AssignPointer_f( ishm_handle, p, 1, ier )
+      iarray_size(1) = 100   !! this should be known externally (communicated)
+      call inshm_AssignPointer_f( ishm_handle, p, iarray_size, 1, ier )
       PRINT*,'ier=',ier,'(should be zero)'
       !--- data should have been set by the maker
       do i = 1,5   ! only the first few
          PRINT*,'p(i)=', p(i)
       enddo
 
-C     call inshm_AssignPointer_f( ishm_handle, pr, 1, ier )
+C     call inshm_AssignPointer_f( ishm_handle, pr, iarray_size, 1, ier )
 C     PRINT*,'ier=',ier,'(should be zero)'
 C     !--- data should have been set by the maker
 C     do i = 1,5   ! only the first few
