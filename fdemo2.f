@@ -26,6 +26,7 @@ c--- Attach to the segment
 
 c--- Attach the segment to a pointer so that we can access data
       call inshm_SegmentPtr_INT4( ishm_handle, p, 1, ier )
+      PRINT*,'ier=',ier,'(should be zero)'
       !--- data should have been set by the maker
       do i = 1,5   ! only the first few
          PRINT*,'p(i)=', p(i)
