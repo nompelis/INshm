@@ -28,7 +28,7 @@ c--- Show the segments with IPCS
       call SYSTEM( 'ipcs -m' )
 
 c--- Attach the segment to a pointer so that we can access data
-      call inshm_SegmentPtr_INT4( ishm_handle, p, 1, ier )
+      call inshm_AssignPointer_f( ishm_handle, p, 1, ier )
       PRINT*,'ier=',ier,'(should be zero)'
       do i = 1,100
          p(i) = -(1000 + i)

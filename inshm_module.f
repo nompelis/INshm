@@ -54,15 +54,15 @@
 
       !----- forcing very specific arguments to internal module procedures
       INTERFACE inshm_AssignPointer_f
-         MODULE PROCEDURE inshm_SegmentPtr_INT4
-         MODULE PROCEDURE inshm_SegmentPtr_INT8
+         MODULE PROCEDURE inshm_SegmentPtr_X_INT4
+         MODULE PROCEDURE inshm_SegmentPtr_X_INT8
       END INTERFACE inshm_AssignPointer_f
 
 
       CONTAINS
 
 c--- a set of routines that assign a pointer to a 4-byte integer for rank 0-7
-      SUBROUTINE inshm_SegmentPtr_INT4( handle, data_ptr, iverb, ier )
+      SUBROUTINE inshm_SegmentPtr_X_INT4( handle, data_ptr, iverb, ier )
       INTEGER(KIND=4), INTENT(IN) :: handle
       INTEGER(KIND=4), DIMENSION(:), POINTER, INTENT(OUT) :: data_ptr
       INTEGER(KIND=4), INTENT(IN) :: iverb
@@ -76,11 +76,11 @@ c--- a set of routines that assign a pointer to a 4-byte integer for rank 0-7
 
       if( .NOT.associated( data_ptr ) ) ier = 1
 
-      END SUBROUTINE inshm_SegmentPtr_INT4
+      END SUBROUTINE inshm_SegmentPtr_X_INT4
 
 
 c--- a set of routines that assign a pointer to a 8-byte integer for rank 0-7
-      SUBROUTINE inshm_SegmentPtr_INT8( handle, data_ptr, iverb, ier )
+      SUBROUTINE inshm_SegmentPtr_X_INT8( handle, data_ptr, iverb, ier )
       INTEGER(KIND=4), INTENT(IN) :: handle
       INTEGER(KIND=8), DIMENSION(:), POINTER, INTENT(OUT) :: data_ptr
       INTEGER(KIND=4), INTENT(IN) :: iverb
@@ -94,7 +94,7 @@ c--- a set of routines that assign a pointer to a 8-byte integer for rank 0-7
 
       if( .NOT.associated( data_ptr ) ) ier = 1
 
-      END SUBROUTINE inshm_SegmentPtr_INT8
+      END SUBROUTINE inshm_SegmentPtr_X_INT8
 
 
 
