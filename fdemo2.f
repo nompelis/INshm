@@ -5,6 +5,7 @@
       Implicit None
       Integer(KIND=4) ishm_handle, ishm_id, ier
       Integer(KIND=4),dimension(:),Pointer :: p
+C     Real   (KIND=4),dimension(:),Pointer :: pr
       Integer i
 
 
@@ -32,6 +33,12 @@ c--- Attach the segment to a pointer so that we can access data
          PRINT*,'p(i)=', p(i)
       enddo
 
+C     call inshm_AssignPointer_f( ishm_handle, pr, 1, ier )
+C     PRINT*,'ier=',ier,'(should be zero)'
+C     !--- data should have been set by the maker
+C     do i = 1,5   ! only the first few
+C        PRINT*,'pr(i)=', pr(i)
+C     enddo
 
 c--- Wait some time to allow for the make of the segment to terminate
       PRINT*,'This is the part where the consumer does work for a while...'

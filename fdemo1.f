@@ -6,6 +6,8 @@
       Integer(KIND=4) ishm_handle, ishm_id, ier
       Integer(KIND=8) lshm_size
       Integer(KIND=4), dimension(:), Pointer :: p
+C     Real   (KIND=4), dimension(:), Pointer :: pr
+C     Real   (KIND=8), dimension(:), Pointer :: pre
       Integer i
 
 
@@ -36,6 +38,22 @@ c--- Attach the segment to a pointer so that we can access data
       do i = 1,5   ! only the first few
          PRINT*,'p(i)=', p(i)
       enddo
+
+CCCCCC DO NOT TRY THESE AT HOME...
+c--- Just for fun, assign the same pointer to an array of 4-byte reals
+c     call inshm_AssignPointer_f( ishm_handle, pr, 1, ier )
+c     PRINT*,'ier=',ier,'(should be zero)'
+c     do i = 1,5   ! only the first few
+c        pr(i) = -9999.9 + float(i-1)
+c        PRINT*,'pr(i)=', pr(i)
+c     enddo
+
+c--- Just for fun, look at the result from an array of 8-byte reals (overlaped)
+c     call inshm_AssignPointer_f( ishm_handle, pre, 1, ier )
+c     PRINT*,'ier=',ier,'(should be zero)'
+c     do i = 1,5   ! only the first few
+c        PRINT*,'pre(i)=', pre(i)
+c     enddo
 
 c--- Wait some time to allow other processes to attach to your segment
       PRINT*,'This is the part where the maker does work for a while...'
