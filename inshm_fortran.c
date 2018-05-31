@@ -311,3 +311,37 @@ int inshm_fortran_segmentid_( int *handle, int *iverb )
    return( inSHM_Fortran_SegmentID( *handle, *iverb ) );
 }
 
+
+//
+// Get the pointer to the allocated memory of a shared memory segment
+//
+
+void * inSHM_Fortran_SegmentPointer(
+      int handle,
+      int iverb )
+{
+   struct inSHM_segment_s *s;
+
+   // sanity check
+   if( global_inshm_handles == NULL ) {
+      if( iverb != 0 )
+         printf("Error: there should be no handles floating around! \n");
+      return( NULL );
+   }
+
+   if( handle >= global_inshm_handles_num ) {
+      if( iverb != 0 )
+         printf("Error: Invalid handle to attach to (%d) \n", handle );
+      return( NULL );
+   }
+
+   s = &( global_inshm_handles[ handle ] );
+
+   return( s->shm );
+}
+
+void * inshm_fortran_segmentpointer_( int *handle, int *iverb )
+{
+   return( inSHM_Fortran_SegmentPointer( *handle, *iverb ) );
+}
+
