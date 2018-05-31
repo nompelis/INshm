@@ -1,7 +1,7 @@
       MODULE inshm
 
       Use, intrinsic :: iso_c_binding, only : c_int, c_long, c_double, c_ptr,
-     &                  c_f_pointer, c_null_ptr, c_loc
+     &                  c_f_pointer
 
       Implicit none
       !----- this is the variable that will hold the C pointer value when
@@ -73,7 +73,8 @@ c--- a set of routines that assign a pointer to a 4-byte integer for rank 0-7
       ier = 0
 
       call c_f_pointer(mem_ptr, data_ptr, [100])
-C     if( mem_ptr == c_null_ptr ) ier = 1
+
+      if( .NOT.associated( data_ptr ) ) ier = 1
 
       END SUBROUTINE inshm_SegmentPtr_INT4
 
@@ -86,11 +87,12 @@ c--- a set of routines that assign a pointer to a 8-byte integer for rank 0-7
       INTEGER(KIND=4), INTENT(OUT) :: ier
 
       mem_ptr = inshm_SegmentPointer( handle, iverb )
-C     if( mem_ptr == c_null_ptr ) ier = 1
 
       ier = 0
 
       call c_f_pointer(mem_ptr, data_ptr, [100])
+
+      if( .NOT.associated( data_ptr ) ) ier = 1
 
       END SUBROUTINE inshm_SegmentPtr_INT8
 
