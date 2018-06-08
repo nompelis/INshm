@@ -72,7 +72,7 @@ behind the motivation of creating this library, is to have processes start
 simultanuously from a library that coordinates distributed parallel processing.
 In this case, the programmer will have to introduce flow-control such that a
 process creates the memory segment on a given host (or NUMA node) and other
-processes subsequently attach to it. In this case, concentions need to be
+processes subsequently attach to it. In this case, conventions need to be
 introduced, querying of hostnames to group processes on hosts, and queries of
 the NUMA nodes to group processes by NUMA nodes.
 
@@ -130,7 +130,7 @@ is written in C, something that can create confusion.
 The process that creates (and attaches to) the segment needs to make the API
 call to create the segment, and then it needs to take that piece of memory and
 associate it with the pointer through which the data will be accessed. At the
-end, the process will detach (but not necessarily at termination). And example
+end, the process will detach (but not necessarily at termination). An example
 of this is here:
 ```
       Program maker
