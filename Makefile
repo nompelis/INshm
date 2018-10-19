@@ -1,9 +1,6 @@
-CC = gcc
-COPTS = -fPIC -Wall -O0
+COMPILER = gnu
 
-FC = gfortran
-FOPTS = -fPIC -Wall -O0 -ffixed-line-length-132 -fbounds-check
-
+include Makefile.in
 
 all: lib prog
 
