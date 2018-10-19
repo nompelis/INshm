@@ -276,3 +276,10 @@ attached to each shared memory segment, as well at some other information.
 
 
 IN 2018/06/01
+
+
+Some modifications were made to fix the behaviour of this library when using
+the Intel Fortran compilers. Thanks go to Dr. Heath Johnson for extensive
+testing and the fix.
+
+IN 2018/10/19
