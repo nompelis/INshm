@@ -3,27 +3,27 @@ include Makefile.in
 
 ### options for the various compilers
 ifeq ($(COMPILER),gnu)
-   CC ?= gcc
-   COPTS ?= -fPIC -Wall -O0
+   CC = gcc
+   COPTS = -fPIC -Wall -O0
 
-   FC ?= gfortran
-   FOPTS ?= -fPIC -Wall -O0 -ffixed-line-length-132 -fbounds-check
+   FC = gfortran
+   FOPTS = -fPIC -Wall -O0 -ffixed-line-length-132 -fbounds-check
 endif
 
 ifeq ($(COMPILER),pgi)
-   CC ?= pgcc
-   COPTS ?= -fPIC -Mbounds -O0
+   CC = pgcc
+   COPTS = -fPIC -Mbounds -O0
 
-   FC ?= pgf90
-   FOPTS ?= -fPIC -Mextend -Mbounds -O0
+   FC = pgf90
+   FOPTS = -fPIC -Mextend -Mbounds -O0
 endif
 
 ifeq ($(COMPILER),intel)
-   CC ?= icc
-   COPTS ?= -fPIC -O0
+   CC = icc
+   COPTS = -fPIC -O0
 
-   FC ?= ifort
-   FOPTS ?= -fPIC -extend-source -check bounds -check pointer -check uninit -O0
+   FC = ifort
+   FOPTS = -fPIC -extend-source -check bounds -check pointer -check uninit -O0
 endif
 
 all: lib prog
