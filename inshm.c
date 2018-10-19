@@ -36,7 +36,7 @@ int inSHM_CreateSegmentPrivate(
    ds = &( inshm->ds );
 
    // first create the segment
-   shmid = shmget( IPC_PRIVATE, size, IPC_CREAT | 0666 );
+   shmid = shmget( IPC_PRIVATE, size, IPC_CREAT | 0600 );
    if( shmid < 0 ) {
       if( iverb != 0 ) {
          printf(" [inSHM] Could not create IPC_PRIVATE segment of size %ld \n",
