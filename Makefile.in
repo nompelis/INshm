@@ -12,7 +12,7 @@ ifeq ($(COMPILER),pgi)
    COPTS = -fPIC -Mbounds -O0
 
    FC = pgf90
-   FOPTS = -fPIC -Wall -Mextend -Mbounds -O0
+   FOPTS = -fPIC -Mextend -Mbounds -O0
 endif
 
 ifeq ($(COMPILER),intel)
