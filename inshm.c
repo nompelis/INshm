@@ -1,3 +1,7 @@
+/******************************************************************************
+ Copyright (c) 2018, Ioannis Nompelis
+ All rights reserved.
+ ******************************************************************************/
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
